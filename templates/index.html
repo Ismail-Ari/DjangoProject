@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Insert new record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'home' %}">Palutejärjestelmä</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      {% if user.is_authenticated %}
+   <a class="nav-item nav-link active" href="{% url 'home' %}">Etusivu<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="{% url 'home' %}">Hello: {{ user.username }}</a>
+       <a class="nav-item nav-link" href="{% url 'secret2' %}">Tulokset</a>
+      <a class="nav-item nav-link" href="{% url 'logout' %}">Kirjaudu ulos</a>
+   {% else %}
+      <a class="nav-item nav-link" href="{% url 'login' %}">Kirjaudu sisään</a>
+      <a class="nav-item nav-link" href="{% url 'signup' %}">Rekisteröidy</a>
+   {% endif %}
+    </div>
+  </div>
+</nav>
+ <div class="container" style="padding:20px;">
+    <div class="col-md-12 well">
+        <h3 class="text-primary">Tervetuloa Palautejärjestelmään.<br> Ole hyvä ja täytä palautelomake.</h3>
+        <hr style="border-top:1px dotted #ccc;"/>
+  {% block content %} {% endblock %}
+    </div>
+    </div>
+ <style type="text/css">
+    .asteriskField {
+      display: none;
+    }
+ 
+    form .alert ul li {
+      list-style: none;
+    }
+ 
+    form .alert ul {
+      padding: 0;
+      margin: 0;
+    }
+  </style> 
+    
+    <form method="POST">
+         {% csrf_token %}
+          <select class="form-select" name="aihe" required>
+          <option selected>Mistä aiheesta haluat antaa palautteen?</option>
+          <option value="1">Aihe 1</option>
+          <option value="2">Aihe 2</option>
+          <option value="3">Aihe 3</option>
+          </select><p></p>
+
+          <div class="form-floating">
+          <textarea class="form-control" placeholder="Mitä oli hyvää?" id="floatingTextarea2" style="height: 100px" name="hyva" autocomplete="off" required></textarea>
+          <label for="floatingTextarea2"></label>
+         </div>
+
+          <div class="form-floating">
+          <textarea class="form-control" placeholder="Mitä oli huonoo?" id="floatingTextarea2" style="height: 100px" name="huono" autocomplete="off" required></textarea>
+          <label for="floatingTextarea2"></label>
+         </div>
+
+          <div class="form-floating">
+          <textarea class="form-control" placeholder="Mitä on kehitettävä?" id="floatingTextarea2" style="height: 100px" name="country" autocomplete="off" required></textarea>
+          <label for="floatingTextarea2"></label>
+         </div>
+
+    <label for="tentacles">Arvosanasi Aiheesta (1-5):</label>
+    <input type="number"name="arvosana" min="1" max="5"><p></p>
+        
+    <input type="submit" value="Lähetä"/>
+      {%if messages %}
+      {%for message in messages%}
+       <h2 style="color:green;">{{message}}</h2>
+      {%endfor%}
+      {%endif%}
+    </form>
+    <hr/>
+    
+</body>
+</html>

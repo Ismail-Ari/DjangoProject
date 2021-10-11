@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+  <h2>Aloitussivu</h2>
+  <p>Tervetuloa, {% if user.is_authenticated %}{{ user.username }}{% else %}vierailija{% endif %}!</p>
+  <p>
+    <strong>Yhteensä rekisteröityneet käyttäjät: </strong> {{ count }}
+  </p>
+{% endblock %}
